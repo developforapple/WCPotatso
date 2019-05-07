@@ -58,13 +58,13 @@ enum {
 
 
 /* The structure representing a compiled regular expression. */
-#undef regex_t
+#undef regex_t_p
 
 typedef struct {
   void *re_pcre;
   size_t re_nsub;
   size_t re_erroffset;
-} regex_t;
+} regex_t_p;
 
 /* The structure in which a captured offset is returned. */
 
@@ -77,10 +77,10 @@ typedef struct {
 
 /* The functions */
 
-extern int pcre_regcomp(regex_t *, const char *, int);
-extern int pcre_regexec(regex_t *, const char *, size_t, regmatch_t *, int);
-extern size_t pcre_regerror(int, const regex_t *, char *, size_t);
-extern void pcre_regfree(regex_t *);
+extern int pcre_regcomp(regex_t_p *, const char *, int);
+extern int pcre_regexec(regex_t_p *, const char *, size_t, regmatch_t *, int);
+extern size_t pcre_regerror(int, const regex_t_p *, char *, size_t);
+extern void pcre_regfree(regex_t_p *);
 
 #ifdef __cplusplus
 }   /* extern "C" */

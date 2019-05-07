@@ -346,7 +346,7 @@ struct http_response
 struct url_spec
 {
 #ifdef FEATURE_EXTENDED_HOST_PATTERNS
-   regex_t *host_regex;/**< Regex for host matching                          */
+   regex_t_p *host_regex;/**< Regex for host matching                          */
 #else
    char  *dbuffer;     /**< Buffer with '\0'-delimited domain name, or NULL to match all hosts. */
    char **dvec;        /**< List of pointers to the strings in dbuffer.       */
@@ -356,7 +356,7 @@ struct url_spec
 
    char  *port_list;   /**< List of acceptable ports, or NULL to match all ports */
 
-   regex_t *preg;      /**< Regex for matching path part                      */
+   regex_t_p *preg;      /**< Regex for matching path part                      */
 };
 
 /**
@@ -371,7 +371,7 @@ struct pattern_spec
    union
    {
       struct url_spec url_spec;
-      regex_t *tag_regex;
+      regex_t_p *tag_regex;
    } pattern;
 
    unsigned int flags; /**< Bitmap with various pattern properties. */

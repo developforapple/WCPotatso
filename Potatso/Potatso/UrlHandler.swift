@@ -15,10 +15,16 @@ typealias callbackURLKit_Manager = CallbackURLKit.Manager
 
 class UrlHandler: NSObject, AppLifeCycleProtocol {
     
-    func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
+    func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         let manager = callbackURLKit_Manager.shared
         manager.callbackURLScheme = callbackURLKit_Manager.urlSchemes?.first
         for action in [URLAction.ON, URLAction.OFF, URLAction.SWITCH] {
+            
+            let x: ActionHandler = { parameters, success, failure, cancel in
+                
+            }
+            
+            
             manager[action.rawValue] = { parameters, success, failure, cancel in
                 action.perform(nil, parameters: parameters) { error in
                     Async.main(after: 1, {
@@ -35,7 +41,7 @@ class UrlHandler: NSObject, AppLifeCycleProtocol {
         return true
     }
     
-    func application(_ app: UIApplication, open url: URL, options: [UIApplicationOpenURLOptionsKey : Any]) -> Bool {
+    func application(_ app: UIApplication, open url: URL, options: [UIApplication.OpenURLOptionsKey : Any]) -> Bool {
         let components = URLComponents(url: url, resolvingAgainstBaseURL: false)
         var parameters: Parameters = [:]
         components?.queryItems?.forEach {

@@ -10,6 +10,7 @@
 #import <AVFoundation/AVFoundation.h>
 #import "HMScanner.h"
 #import "Potatso-Swift.h"
+#import <MBProgressHUD/MBProgressHUD.h>
 
 #ifndef CDZWeakSelf
 #define CDZWeakSelf __weak __typeof__((__typeof__(self))self)
@@ -251,7 +252,9 @@ NSString * const CDZQRScanningErrorDomain = @"com.cdzombak.qrscanningviewcontrol
 - (void)clickAlbumButton {
 
     if (![UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypePhotoLibrary]) {
-        [self showTextHUD:NSLocalizedString(@"qrcode.denied", nil) dismissAfterDelay:1.0f];
+        MBProgressHUD *HUD = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+        HUD.label.text = NSLocalizedString(@"qrcode.denied", nil);
+        [HUD hideAnimated:YES afterDelay:1.0f];
         return;
     }
 
@@ -275,10 +278,12 @@ NSString * const CDZQRScanningErrorDomain = @"com.cdzombak.qrscanningviewcontrol
             }
             CDZWeakSelf wSelf = self;
             [self dismissViewControllerAnimated:NO completion:^{
-                [wSelf close];
+//                [wSelf close];
             }];
         } else {
-            [self showTextHUD:NSLocalizedString(@"qrcode.nocode", nil) dismissAfterDelay:1.0f];
+            MBProgressHUD *HUD = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+            HUD.label.text = NSLocalizedString(@"qrcode.nocode", nil);
+            [HUD hideAnimated:YES afterDelay:1.0f];
             [self dismissViewControllerAnimated:YES completion:nil];
         }
     }];

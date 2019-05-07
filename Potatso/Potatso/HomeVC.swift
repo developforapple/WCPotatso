@@ -85,7 +85,7 @@ class HomeVC: FormViewController, UINavigationControllerDelegate, HomePresenterP
 
     func updateConnectButton() {
         connectButton.isEnabled = [VPNStatus.on, VPNStatus.off].contains(status)
-        connectButton.setTitleColor(UIColor.init(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0), for: UIControlState())
+        connectButton.setTitleColor(UIColor.init(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0), for: UIControl.State())
         switch status {
         case .connecting, .disconnecting:
             connectButton.animating = true
@@ -181,7 +181,7 @@ class HomeVC: FormViewController, UINavigationControllerDelegate, HomePresenterP
 
     // MARK: - Private Actions
 
-    func handleConnectButtonPressed() {
+    @objc func handleConnectButtonPressed() {
         if status == .on {
             status = .disconnecting
         }else {
@@ -190,7 +190,7 @@ class HomeVC: FormViewController, UINavigationControllerDelegate, HomePresenterP
         presenter.switchVPN()
     }
 
-    func handleTitleButtonPressed() {
+    @objc func handleTitleButtonPressed() {
         presenter.changeGroupName()
     }
 
@@ -203,7 +203,7 @@ class HomeVC: FormViewController, UINavigationControllerDelegate, HomePresenterP
         return false
     }
 
-    func tableView(_ tableView: UITableView, commitEditingStyle editingStyle: UITableViewCellEditingStyle, forRowAtIndexPath indexPath: IndexPath) {
+    func tableView(_ tableView: UITableView, commitEditingStyle editingStyle: UITableViewCell.EditingStyle, forRowAtIndexPath indexPath: IndexPath) {
         if editingStyle == .delete {
             do {
                 try defaultRealm.write {
@@ -217,7 +217,7 @@ class HomeVC: FormViewController, UINavigationControllerDelegate, HomePresenterP
         }
     }
 
-    func tableView(_ tableView: UITableView, editingStyleForRowAtIndexPath indexPath: IndexPath) -> UITableViewCellEditingStyle {
+    func tableView(_ tableView: UITableView, editingStyleForRowAtIndexPath indexPath: IndexPath) -> UITableViewCell.EditingStyle {
         return .delete
     }
 
@@ -244,8 +244,8 @@ class HomeVC: FormViewController, UINavigationControllerDelegate, HomePresenterP
 
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
-        view.bringSubview(toFront: connectButton)
-        tableView?.contentInset = UIEdgeInsetsMake(0, 0, connectButtonHeight, 0)
+        view.bringSubviewToFront(connectButton)
+        tableView?.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: connectButtonHeight, right: 0)
     }
 
     func setupLayout() {
@@ -265,7 +265,7 @@ class HomeVC: FormViewController, UINavigationControllerDelegate, HomePresenterP
 
     lazy var titleButton: UIButton = {
         let b = UIButton(type: .custom)
-        b.setTitleColor(UIColor.init(red: 0.0, green: 0.0, blue: 0.0, alpha: 1.0), for: UIControlState())
+        b.setTitleColor(UIColor.init(red: 0.0, green: 0.0, blue: 0.0, alpha: 1.0), for: UIControl.State())
         b.addTarget(self, action: #selector(HomeVC.handleTitleButtonPressed), for: .touchUpInside)
         if let titleLabel = b.titleLabel {
             titleLabel.font = UIFont.boldSystemFont(ofSize: titleLabel.font.pointSize)
